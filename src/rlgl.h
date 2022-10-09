@@ -682,67 +682,128 @@ RLAPI void rlDrawVertexArray(int offset, int count);
 RLAPI void rlDrawVertexArrayElements(int offset, int count, const void *buffer);
 RLAPI void rlDrawVertexArrayInstanced(int offset, int count, int instances);
 RLAPI void rlDrawVertexArrayElementsInstanced(int offset, int count, const void *buffer, int instances);
+RLAPI void rlMultiDrawElements(const int *count, const void *const *indices, int drawcount);
 
 // Textures management
-RLAPI unsigned int rlLoadTexture(const void *data, int width, int height, int format, int mipmapCount); // Load texture in GPU
-RLAPI unsigned int rlLoadTextureDepth(int width, int height, bool useRenderBuffer);               // Load depth texture/renderbuffer (to be attached to fbo)
-RLAPI unsigned int rlLoadTextureCubemap(const void *data, int size, int format);                        // Load texture cubemap
-RLAPI void rlUpdateTexture(unsigned int id, int offsetX, int offsetY, int width, int height, int format, const void *data);  // Update GPU texture with new data
-RLAPI void rlGetGlTextureFormats(int format, unsigned int *glInternalFormat, unsigned int *glFormat, unsigned int *glType);  // Get OpenGL internal formats
-RLAPI const char *rlGetPixelFormatName(unsigned int format);              // Get name string for pixel format
-RLAPI void rlUnloadTexture(unsigned int id);                              // Unload texture from GPU memory
-RLAPI void rlGenTextureMipmaps(unsigned int id, int width, int height, int format, int *mipmaps); // Generate mipmap data for selected texture
-RLAPI void *rlReadTexturePixels(unsigned int id, int width, int height, int format);              // Read texture pixel data
-RLAPI unsigned char *rlReadScreenPixels(int width, int height);           // Read screen pixel data (color buffer)
+RLAPI unsigned int rlLoadTexture(
+    const void *data, int width, int height, int format, int mipmapCount); // Load texture in GPU
+RLAPI unsigned int rlLoadTextureDepth(
+    int width,
+    int height,
+    bool useRenderBuffer); // Load depth texture/renderbuffer (to be attached to fbo)
+RLAPI unsigned int rlLoadTextureCubemap(const void *data,
+                                        int size,
+                                        int format); // Load texture cubemap
+RLAPI void rlUpdateTexture(unsigned int id,
+                           int offsetX,
+                           int offsetY,
+                           int width,
+                           int height,
+                           int format,
+                           const void *data); // Update GPU texture with new data
+RLAPI void rlGetGlTextureFormats(int format,
+                                 unsigned int *glInternalFormat,
+                                 unsigned int *glFormat,
+                                 unsigned int *glType);      // Get OpenGL internal formats
+RLAPI const char *rlGetPixelFormatName(unsigned int format); // Get name string for pixel format
+RLAPI void rlUnloadTexture(unsigned int id);                 // Unload texture from GPU memory
+RLAPI void rlGenTextureMipmaps(unsigned int id,
+                               int width,
+                               int height,
+                               int format,
+                               int *mipmaps); // Generate mipmap data for selected texture
+RLAPI void *rlReadTexturePixels(unsigned int id,
+                                int width,
+                                int height,
+                                int format); // Read texture pixel data
+RLAPI unsigned char *rlReadScreenPixels(int width,
+                                        int height); // Read screen pixel data (color buffer)
 
 // Framebuffer management (fbo)
-RLAPI unsigned int rlLoadFramebuffer(int width, int height);              // Load an empty framebuffer
-RLAPI void rlFramebufferAttach(unsigned int fboId, unsigned int texId, int attachType, int texType, int mipLevel);  // Attach texture/renderbuffer to a framebuffer
-RLAPI bool rlFramebufferComplete(unsigned int id);                        // Verify framebuffer is complete
-RLAPI void rlUnloadFramebuffer(unsigned int id);                          // Delete framebuffer from GPU
+RLAPI unsigned int rlLoadFramebuffer(int width, int height); // Load an empty framebuffer
+RLAPI void rlFramebufferAttach(unsigned int fboId,
+                               unsigned int texId,
+                               int attachType,
+                               int texType,
+                               int mipLevel);      // Attach texture/renderbuffer to a framebuffer
+RLAPI bool rlFramebufferComplete(unsigned int id); // Verify framebuffer is complete
+RLAPI void rlUnloadFramebuffer(unsigned int id);   // Delete framebuffer from GPU
 
 // Shaders management
-RLAPI unsigned int rlLoadShaderCode(const char *vsCode, const char *fsCode);    // Load shader from code strings
-RLAPI unsigned int rlCompileShader(const char *shaderCode, int type);           // Compile custom shader and return shader id (type: RL_VERTEX_SHADER, RL_FRAGMENT_SHADER, RL_COMPUTE_SHADER)
-RLAPI unsigned int rlLoadShaderProgram(unsigned int vShaderId, unsigned int fShaderId); // Load custom shader program
-RLAPI void rlUnloadShaderProgram(unsigned int id);                              // Unload shader program
-RLAPI int rlGetLocationUniform(unsigned int shaderId, const char *uniformName); // Get shader location uniform
-RLAPI int rlGetLocationAttrib(unsigned int shaderId, const char *attribName);   // Get shader location attribute
-RLAPI void rlSetUniform(int locIndex, const void *value, int uniformType, int count);   // Set shader value uniform
-RLAPI void rlSetUniformMatrix(int locIndex, Matrix mat);                        // Set shader value matrix
-RLAPI void rlSetUniformSampler(int locIndex, unsigned int textureId);           // Set shader value sampler
-RLAPI void rlSetShader(unsigned int id, int *locs);                             // Set shader currently active (id and locations)
+RLAPI unsigned int rlLoadShaderCode(const char *vsCode,
+                                    const char *fsCode); // Load shader from code strings
+RLAPI unsigned int rlCompileShader(
+    const char *shaderCode,
+    int type); // Compile custom shader and return shader id (type: RL_VERTEX_SHADER, RL_FRAGMENT_SHADER, RL_COMPUTE_SHADER)
+RLAPI unsigned int rlLoadShaderProgram(unsigned int vShaderId,
+                                       unsigned int fShaderId); // Load custom shader program
+RLAPI void rlUnloadShaderProgram(unsigned int id);              // Unload shader program
+RLAPI int rlGetLocationUniform(unsigned int shaderId,
+                               const char *uniformName); // Get shader location uniform
+RLAPI int rlGetLocationAttrib(unsigned int shaderId,
+                              const char *attribName); // Get shader location attribute
+RLAPI void rlSetUniform(int locIndex,
+                        const void *value,
+                        int uniformType,
+                        int count);                                   // Set shader value uniform
+RLAPI void rlSetUniformMatrix(int locIndex, Matrix mat);              // Set shader value matrix
+RLAPI void rlSetUniformSampler(int locIndex, unsigned int textureId); // Set shader value sampler
+RLAPI void rlSetShader(unsigned int id, int *locs); // Set shader currently active (id and locations)
 
 // Compute shader management
-RLAPI unsigned int rlLoadComputeShaderProgram(unsigned int shaderId);           // Load compute shader program
-RLAPI void rlComputeShaderDispatch(unsigned int groupX, unsigned int groupY, unsigned int groupZ);  // Dispatch compute shader (equivalent to *draw* for graphics pilepine)
+RLAPI unsigned int rlLoadComputeShaderProgram(unsigned int shaderId); // Load compute shader program
+RLAPI void rlComputeShaderDispatch(
+    unsigned int groupX,
+    unsigned int groupY,
+    unsigned int groupZ); // Dispatch compute shader (equivalent to *draw* for graphics pilepine)
 
 // Shader buffer storage object management (ssbo)
-RLAPI unsigned int rlLoadShaderBuffer(unsigned int size, const void *data, int usageHint); // Load shader storage buffer object (SSBO)
-RLAPI void rlUnloadShaderBuffer(unsigned int ssboId);                           // Unload shader storage buffer object (SSBO)
-RLAPI void rlUpdateShaderBuffer(unsigned int id, const void *data, unsigned int dataSize, unsigned int offset); // Update SSBO buffer data
-RLAPI void rlBindShaderBuffer(unsigned int id, unsigned int index);             // Bind SSBO buffer
-RLAPI void rlReadShaderBuffer(unsigned int id, void *dest, unsigned int count, unsigned int offset); // Read SSBO buffer data (GPU->CPU)
-RLAPI void rlCopyShaderBuffer(unsigned int destId, unsigned int srcId, unsigned int destOffset, unsigned int srcOffset, unsigned int count); // Copy SSBO data between buffers
-RLAPI unsigned int rlGetShaderBufferSize(unsigned int id);                      // Get SSBO buffer size
+RLAPI unsigned int rlLoadShaderBuffer(unsigned int size,
+                                      const void *data,
+                                      int usageHint); // Load shader storage buffer object (SSBO)
+RLAPI void rlUnloadShaderBuffer(unsigned int ssboId); // Unload shader storage buffer object (SSBO)
+RLAPI void rlUpdateShaderBuffer(unsigned int id,
+                                const void *data,
+                                unsigned int dataSize,
+                                unsigned int offset);               // Update SSBO buffer data
+RLAPI void rlBindShaderBuffer(unsigned int id, unsigned int index); // Bind SSBO buffer
+RLAPI void rlReadShaderBuffer(unsigned int id,
+                              void *dest,
+                              unsigned int count,
+                              unsigned int offset); // Read SSBO buffer data (GPU->CPU)
+RLAPI void rlCopyShaderBuffer(unsigned int destId,
+                              unsigned int srcId,
+                              unsigned int destOffset,
+                              unsigned int srcOffset,
+                              unsigned int count);         // Copy SSBO data between buffers
+RLAPI unsigned int rlGetShaderBufferSize(unsigned int id); // Get SSBO buffer size
 
 // Buffer management
-RLAPI void rlBindImageTexture(unsigned int id, unsigned int index, int format, bool readonly);  // Bind image texture
+RLAPI void rlBindImageTexture(unsigned int id,
+                              unsigned int index,
+                              unsigned int format,
+                              int readonly); // Bind image texture
 
 // Matrix state management
-RLAPI Matrix rlGetMatrixModelview(void);                                  // Get internal modelview matrix
-RLAPI Matrix rlGetMatrixProjection(void);                                 // Get internal projection matrix
-RLAPI Matrix rlGetMatrixTransform(void);                                  // Get internal accumulated transform matrix
-RLAPI Matrix rlGetMatrixProjectionStereo(int eye);                        // Get internal projection matrix for stereo render (selected eye)
-RLAPI Matrix rlGetMatrixViewOffsetStereo(int eye);                        // Get internal view offset matrix for stereo render (selected eye)
-RLAPI void rlSetMatrixProjection(Matrix proj);                            // Set a custom projection matrix (replaces internal projection matrix)
-RLAPI void rlSetMatrixModelview(Matrix view);                             // Set a custom modelview matrix (replaces internal modelview matrix)
-RLAPI void rlSetMatrixProjectionStereo(Matrix right, Matrix left);        // Set eyes projection matrices for stereo rendering
-RLAPI void rlSetMatrixViewOffsetStereo(Matrix right, Matrix left);        // Set eyes view offsets matrices for stereo rendering
+RLAPI Matrix rlGetMatrixModelview(void);  // Get internal modelview matrix
+RLAPI Matrix rlGetMatrixProjection(void); // Get internal projection matrix
+RLAPI Matrix rlGetMatrixTransform(void);  // Get internal accumulated transform matrix
+RLAPI Matrix rlGetMatrixProjectionStereo(
+    int eye); // Get internal projection matrix for stereo render (selected eye)
+RLAPI Matrix rlGetMatrixViewOffsetStereo(
+    int eye); // Get internal view offset matrix for stereo render (selected eye)
+RLAPI void rlSetMatrixProjection(
+    Matrix proj); // Set a custom projection matrix (replaces internal projection matrix)
+RLAPI void rlSetMatrixModelview(
+    Matrix view); // Set a custom modelview matrix (replaces internal modelview matrix)
+RLAPI void rlSetMatrixProjectionStereo(
+    Matrix right, Matrix left); // Set eyes projection matrices for stereo rendering
+RLAPI void rlSetMatrixViewOffsetStereo(
+    Matrix right, Matrix left); // Set eyes view offsets matrices for stereo rendering
 
 // Quick and dirty cube/quad buffers load->draw->unload
-RLAPI void rlLoadDrawCube(void);     // Load and draw a cube
-RLAPI void rlLoadDrawQuad(void);     // Load and draw a quad
+RLAPI void rlLoadDrawCube(void); // Load and draw a cube
+RLAPI void rlLoadDrawQuad(void); // Load and draw a quad
 
 #if defined(__cplusplus)
 }
@@ -3549,6 +3610,11 @@ void rlDrawVertexArray(int offset, int count)
 void rlDrawVertexArrayElements(int offset, int count, const void *buffer)
 {
     glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_SHORT, (const unsigned short *)buffer + offset);
+}
+
+void rlMultiDrawElements(const int *count, const void *const *indices, int drawcount)
+{
+    glMultiDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_SHORT, indices, drawcount);
 }
 
 // Draw vertex array instanced

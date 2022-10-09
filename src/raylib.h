@@ -1458,6 +1458,13 @@ RLAPI void DrawMeshInstanced(Mesh mesh, Material material, const Matrix *transfo
 RLAPI bool ExportMesh(Mesh mesh, const char *fileName);                                     // Export mesh data to file, returns true on success
 RLAPI BoundingBox GetMeshBoundingBox(Mesh mesh);                                            // Compute mesh bounding box limits
 RLAPI void GenMeshTangents(Mesh *mesh);                                                     // Compute mesh tangents
+RLAPI void DrawMeshMultipleElements(
+    Mesh mesh,
+    Material material,
+    Matrix transform,
+    const int *count,
+    const void *const *indices,
+    int drawcount); // Draw multiple mesh with material and different transforms
 
 // Mesh generation functions
 RLAPI Mesh GenMeshPoly(int sides, float radius);                                            // Generate polygonal mesh
