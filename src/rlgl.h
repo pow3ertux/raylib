@@ -679,6 +679,7 @@ RLAPI void rlSetVertexAttribute(unsigned int index, int compSize, int type, bool
 RLAPI void rlSetVertexAttributeDivisor(unsigned int index, int divisor);
 RLAPI void rlSetVertexAttributeDefault(int locIndex, const void *value, int attribType, int count); // Set vertex attribute default value
 RLAPI void rlDrawVertexArray(int offset, int count);
+RLAPI void rlMultiDrawVertexArrayElements(const int *count, const void *const *indices, int drawcount);
 RLAPI void rlDrawVertexArrayElements(int offset, int count, const void *buffer);
 RLAPI void rlDrawVertexArrayInstanced(int offset, int count, int instances);
 RLAPI void rlDrawVertexArrayElementsInstanced(int offset, int count, const void *buffer, int instances);
@@ -3549,6 +3550,11 @@ void rlDrawVertexArray(int offset, int count)
 void rlDrawVertexArrayElements(int offset, int count, const void *buffer)
 {
     glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_SHORT, (const unsigned short *)buffer + offset);
+}
+
+void rlMultiDrawVertexArrayElements(const int *count, const void *const *indices, int drawcount)
+{
+    glMultiDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_SHORT, indices, drawcount);
 }
 
 // Draw vertex array instanced
